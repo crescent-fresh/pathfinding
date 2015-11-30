@@ -1,0 +1,27 @@
+
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+int main()
+{
+	int first;
+	int x1, x2, y1, y2; //Int variables for the coordinates
+	double distance = sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2)); //Caluclutes distance between two sets of coordinates
+
+	ifstream myfile; //Creates myfile
+	myfile.open("pathf.txt"); //Myfile opens the textfile containing the coordinates
+
+	if (myfile.fail()) //If the textfile fails to be read
+	{
+		cout << "The program failed to be read.";
+		exit(1);
+	}
+
+	while (myfile >> )
+
+	cout << endl;
+
+	myfile.close(); //Closes file
+	return 0;
+}
