@@ -12,12 +12,13 @@ struct point
 
 std::ostream& operator << (std::ostream& os, point p) //Assigns the x- and y-values in the coordinates to an int
 {
-	return os << "(" << p.x << ", " << p.y << ")";
+	return os << "(" << p.x << ", " << p.y << ") --- ";
 }
 
 std::istream& operator >> (std::istream& is, point& p) //Ignores the comma in the coordinate
 {
-	(is >> p.x >> std::ws).ignore();        // ','
+	(is >> p.x >> std::ws).ignore();
+	(is >> p.y >> std::ws).ignore();
 
 	return is;
 }
@@ -55,6 +56,6 @@ int main() //Main statement
 
 	for (auto pair : points)
 	{
-		std::cout << pair.second << '\n';
+		std::cout << pair.second << std::endl;
 	}
 }
