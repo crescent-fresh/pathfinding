@@ -1,27 +1,60 @@
-
-#include <iostream>
+#include <algorithm>
 #include <fstream>
-using namespace std;
+#include <iostream>
+#include <utility>
+#include <vector>
 
-int main()
+struct point
 {
-	int first;
-	int x1, x2, y1, y2; //Int variables for the coordinates
-	double distance = sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2)); //Caluclutes distance between two sets of coordinates
+	int x; //Defining int variables for x- and y-values
+	int y;
+};
 
-	ifstream myfile; //Creates myfile
-	myfile.open("pathf.txt"); //Myfile opens the textfile containing the coordinates
+std::ostream& operator << (std::ostream& os, point p) //Assigns the x- and y-values in the coordinates to an int
+{
+	return os << "(" << p.x << ", " << p.y << ")";
+}
 
-	if (myfile.fail()) //If the textfile fails to be read
+std::istream& operator >> (std::istream& is, point& p) //Ignores the comma in the coordinate
+{
+	(is >> p.x >> std::ws).ignore();        // ','
+
+	return is;
+}
+
+int distance (const point& a, const point& b) //Calculating distance between each set of coordinates
+{
+	int diffOfX = a.x - b.x; //Distance for x
+	int diffOfY = a.y - b.y; //Distance for y
+
+	return (diffOfX * diffOfX) + (diffOfY * diffOfY); //Returns distance
+}
+
+int main() //Main statement
+{
+	std::ifstream myfile("pathf.txt"); //Reads textfile
+
+	using pair_type = std::pair<int, point>;
+	std::vector<pair_type> points;
+
+	point origin;
+
+	if (myfile >> origin)
 	{
-		cout << "The program failed to be read.";
-		exit(1);
+		point pt = origin;
+
+		do
+		{
+			points.push_back(std::make_pair(distance(origin, pt), pt));
+		}
+
+		while (myfile >> pt);
 	}
 
-	while (myfile >> )
+	std::sort(points.begin(), points.end(), [](pair_type& a, pair_type& b) { return a.first < b.first; });
 
-	cout << endl;
-
-	myfile.close(); //Closes file
-	return 0;
+	for (auto pair : points)
+	{
+		std::cout << pair.second << '\n';
+	}
 }
